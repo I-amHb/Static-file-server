@@ -1,17 +1,21 @@
 const fs = require('fs');
 const http = require('http');
+const path = require('path');
 
-http.createServer((req, res) => {
+const server = http.createServer((req, res) => {
     if (req.url === '/') {
-        const readStream = fs.createReadStream('./public/index.html');
+        const filePath = path.join(__dirname, 'public', 'index.html');
+        const readStream = fs.createReadStream(filePath);
         res.writeHead(200, { 'Content-Type': 'text/html' });
         readStream.pipe(res);
     } else if (req.url === '/styles.css') {
-        const readStream = fs.createReadStream('./public/styles.css');
+        const filePath = path.join(__dirname, 'public', 'styles.css');
+        const readStream = fs.createReadStream(filePath);
         res.writeHead(200, { 'Content-Type': 'text/css' });
         readStream.pipe(res);
     } else if (req.url === '/about') {
-        const readStream = fs.createReadStream('./public/about.html');
+        const filePath = path.join(__dirname, 'public', 'about.html');
+        const readStream = fs.createReadStream(filePath);
         res.writeHead(200, { 'Content-Type': 'text/html' });
         readStream.pipe(res);
     } else {
@@ -19,4 +23,6 @@ http.createServer((req, res) => {
         res.writeHead(404, { 'Content-Type': 'text/html' });
         readStream.pipe(res);
     }
-}).listen(3000);
+})
+
+server.listen(3000);
